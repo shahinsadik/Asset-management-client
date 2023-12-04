@@ -49,7 +49,7 @@ const UserTable = () => {
       <div className="bg-slate-200 overflow-x-auto rounded-t-md">
         <table className="table ">
           
-          <thead className="bg-green-600">
+          <thead className="bg-[#d45934]">
             <tr >
               <th>
                 
@@ -62,7 +62,7 @@ const UserTable = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((singleUser, index) => (
+            {users?.map((singleUser, index) => (
               <tr key={singleUser._id}>
                 <td>
                   <label>
@@ -93,7 +93,7 @@ const UserTable = () => {
                 <td>{singleUser.name}</td>
                 <td>Normal Employee</td>
                 <td>
-                  <button onClick={() => handleAddToTeam(singleUser)} className="btn btn-outline bg-green-600">Add to the team</button>
+                  <button onClick={() => handleAddToTeam(singleUser)} className="btn btn-outline bg-[#d45934]">Add to the team</button>
                 </td>
               </tr>
             ))}

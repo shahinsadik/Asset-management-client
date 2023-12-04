@@ -3,45 +3,37 @@ import useAxiosPublic from "./../../../Hooks/useAxiosPublic";
 import useAuth from "./../../../Hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
+import useTeam from "./../../../Hooks/useTeam";
 
 const RequestAsset = () => {
   const axiosPublic = useAxiosPublic();
   const [note, setNote] = useState();
   const { user } = useAuth();
+  const [team] = useTeam();
+  const userEmail = team?.userEmail
+  const [searchQuery, setSearchQuery] = useState("");
+  const [modalData, setModalData] = useState({});
 
-  const { data: reqAsset = [] } = useQuery({
-    queryKey: ["reqAsset", user?.email],
+  const {
+    data: reqAsset,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["reqAsset", user?.email, searchQuery],
     queryFn: async () => {
       const res = await axiosPublic.get(
-        `/assets?email=${user?.email}&status=pending`
+        `/assets?email=${userEmail}&search=${searchQuery}`
       );
       console.log(res.data);
       return res.data;
     },
   });
-
-  const [formData, setFormData] = useState({
-    assetName: "",
-    price: "",
-    assetType: "",
-    assetImage: "",
-    whyYouNeedThis: "",
-    additionalInformation: "",
-  });
-
-  const [searchQuery, setSearchQuery] = useState("");
-  const [availabilityFilter, setAvailabilityFilter] = useState("all");
-  const [assetTypeFilter, setAssetTypeFilter] = useState("all");
-  const [requestStatusFilter, setRequestStatusFilter] = useState("all");
-  console.log(searchQuery);
   const [filteredAssets, setFilteredAssets] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosPublic.get(
-          `/req-assets?search=${searchQuery}&availability=${availabilityFilter}&assetType=${assetTypeFilter}&status=${requestStatusFilter}`
-        );
+        const response = await axiosPublic.get(`/assets?search=${searchQuery}`);
         setFilteredAssets(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -49,16 +41,10 @@ const RequestAsset = () => {
     };
 
     fetchData();
-  }, [
-    searchQuery,
-    availabilityFilter,
-    assetTypeFilter,
-    requestStatusFilter,
-    axiosPublic,
-  ]);
+  }, [searchQuery, axiosPublic]);
 
   const handleRequest = async (asset) => {
-    console.log(asset);
+    
     const options = {
       year: "numeric",
       month: "short",
@@ -67,14 +53,18 @@ const RequestAsset = () => {
     const date = new Intl.DateTimeFormat("en-US", options).format(new Date());
     try {
       const assetInfo = {
-        userEmail: user.email,
+        email: user.email,
+        userEmail: modalData.email,
         userName: user.displayName,
+        productName: modalData.productName,
+        productType: modalData.productType,
+        productQuantity: modalData?.productQuantity,
+        AssetImage: modalData.AssetImage,
         date: date,
         note,
         asset,
         isPending: false,
       };
-      console.log(assetInfo);
 
       const res = await axiosPublic.post("/req-assets", assetInfo);
 
@@ -93,51 +83,41 @@ const RequestAsset = () => {
       });
     }
   };
-
+  const handleOpenModal = async (id) => {
+    const res = await axiosPublic.get(`/assets/${id}`);
+    setModalData(res.data);
+    document.getElementById("my_modal_5").showModal();
+  };
   return (
     <div className="m-20">
-      <div className="bg-[#fdc89d] p-5 rounded-lg">
-        <div className="flex justify-between ">
-          <div>
-            <label htmlFor="search">Search </label>
-            <input
-              type="text"
-              id="search"
-              placeholder="Search by Asset Name"
-              className="input input-bordered w-full max-w-xs"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="availabilityFilter">Filter:</label>
-            <select
-              className="select select-bordered w-full max-w-xs"
-              id="availabilityFilter"
-              value={availabilityFilter}
-              onChange={(e) => setAvailabilityFilter(e.target.value)}>
-              <option value="all">All</option>
-              <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="assetTypeFilter">Filter Type: </label>
-            <select
-              className="select select-bordered w-full max-w-xs"
-              id="assetTypeFilter"
-              value={assetTypeFilter}
-              onChange={(e) => setAssetTypeFilter(e.target.value)}>
-              <option value="all">All</option>
-              <option value="returnable">Returnable</option>
-              <option value="non-returnable">Non-returnable</option>
-            </select>
-          </div>
-        </div>
-      </div>
       <div>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>Error: {error.message}</p>}
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search now"
+          className="input input-bordered w-full max-w-xs"
+        />
+        <select className="select select-bordered w-full max-w-xs">
+          <option disabled selected>
+            Filter
+          </option>
+
+          <option>pending</option>
+          <option>Approved</option>
+        </select>
+        <select className="select select-bordered w-full max-w-xs">
+          <option disabled selected>
+            Filter
+          </option>
+
+          <option>returnable</option>
+          <option>non-returnable</option>
+        </select>
         <ul>
-          {filteredAssets.map((asset) => (
+          {filteredAssets?.map((asset) => (
             <div key={asset._id}>
               <div className="card card-compact h-full bg-base-100 shadow-xl">
                 <div>{asset.name}</div>
@@ -193,32 +173,30 @@ const RequestAsset = () => {
                       <td>{asset?.productName}</td>
                       <td>{asset?.productType}</td>
                       <td>{asset?.productQuantity}</td>
-                      <div className="flex items-center justify-center gap-2 mt-5">
-                        <div>
-                          <label
-                            htmlFor="my_modal_6"
-                            className="bg-green-600 text-white py-2 font-semibold px-6 rounded-full hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">
+                      <td>
+                        <div className="flex items-center justify-center gap-2 mt-5">
+                          {/* Open the modal using document.getElementById('ID').showModal() method */}
+                          <button
+                            className="bg-green-600 text-white py-2 font-semibold px-6 rounded-full hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
+                            onClick={() => handleOpenModal(asset?._id)}>
                             Request
-                          </label>
-                          <input
-                            type="checkbox"
-                            id="my_modal_6"
-                            className="modal-toggle"
-                          />
-                          <div className="modal" role="dialog">
+                          </button>
+                          <dialog
+                            id="my_modal_5"
+                            className="modal modal-bottom sm:modal-middle">
                             <div className="modal-box">
                               <div className="flex justify-center items-center">
                                 <img
                                   className="w-32"
-                                  src={asset?.AssetImage}
+                                  src={modalData?.AssetImage}
                                   alt="Avatar Tailwind CSS Component"
                                 />
                               </div>
                               <h1 className="font-semibold">
-                                Product Name: {asset?.productName}
+                                Product Name: {modalData?.productName}
                               </h1>
-                              <h1>Type: {asset?.productType}</h1>
-                              <h1>Quantity: {asset?.productQuantity}</h1>
+                              <h1>Type: {modalData?.productType}</h1>
+                              <h1>Quantity: {modalData?.productQuantity}</h1>
                               <p className="py-4">Additional notes</p>
                               <textarea
                                 className="textarea textarea-bordered w-full"
@@ -227,19 +205,20 @@ const RequestAsset = () => {
                                 name="note"
                                 placeholder="Additional notes"></textarea>
                               <div className="modal-action">
-                                <label htmlFor="my_modal_6" className="btn">
-                                  Close!
-                                </label>
+                                <form method="dialog">
+                                  {/* if there is a button in form, it will close the modal */}
+                                  <button className="btn">Close</button>
                                 <button
                                   onClick={() => handleRequest(asset)}
                                   className="bg-green-600 text-white py-2 font-semibold px-6 rounded-full hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">
-                                  Request
+                                  Confirm
                                 </button>
+                                </form>
                               </div>
                             </div>
-                          </div>
+                          </dialog>
                         </div>
-                      </div>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

@@ -8,17 +8,20 @@ const MyEmployeeList = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const {
-    data: team,
+    data: member,
     isPending: loading,
     refetch,
   } = useQuery({
-    queryKey: ["team"],
+    queryKey: ["member", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/teams?email=${user?.email}`);
+      const res = await axiosSecure.get(`/teams/member?email=${user?.email}`);
+
       return res?.data;
     },
-  });
 
+  });
+  
+  console.log(member);
   const handleDelete = async (id) => {
     try {
       const res = await axiosSecure.delete(`/teams/${id}`);
@@ -43,7 +46,7 @@ const MyEmployeeList = () => {
       <div className="m-20">
         <div className="bg-slate-200 overflow-x-auto rounded-t-md">
           <table className="table ">
-            <thead className="bg-green-600">
+            <thead className="bg-[#d45934]">
               <tr>
                 <th></th>
                 <th>SN</th>
@@ -54,7 +57,7 @@ const MyEmployeeList = () => {
               </tr>
             </thead>
             <tbody>
-              {team?.map((singleUser, index) => (
+              {member?.map((singleUser, index) => (
                 <tr key={singleUser?._id}>
                   <td>
                     <label>
@@ -66,9 +69,9 @@ const MyEmployeeList = () => {
                     <div className="flex items-center gap-3">
                       <div className="avatar">
                         <div className="mask mask-squircle w-12 h-12">
-                          {singleUser?.singleUser?.image ? (
+                          {singleUser?.image ? (
                             <img
-                              src={singleUser?.singleUser?.image}
+                              src={singleUser?.image}
                               alt="Avatar Tailwind CSS Component"
                             />
                           ) : (
@@ -81,7 +84,7 @@ const MyEmployeeList = () => {
                       </div>
                     </div>
                   </td>
-                  <td>{singleUser?.singleUser?.name}</td>
+                  <td>{singleUser?.name}</td>
                   <td>Employee</td>
                   <td className="flex justify-center items-center">
                     <button

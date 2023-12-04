@@ -1,24 +1,39 @@
 // AllRequests.js
 // import React, { useState, useEffect } from 'react';
 import useAxiosSecure from "./../../../Hooks/useAsiosSecure";
-import useAuth from "./../../../Hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import  Swal  from 'sweetalert2';
+// import  Swal  from 'sweetalert2';
+// import useTeam from './../../../Hooks/useTeam';
+import useAuth from './../../../Hooks/useAuth';
 
 const AllRequests = () => {
-  const { user } = useAuth();
+  
   const axiosSecure = useAxiosSecure();
-  // const [requests, setRequests] = useState([]);
-
-  const { data: allReq = [], isLoading, refetch } = useQuery({
-    queryKey: ["allReq", user?.email],
+  
+const {user} = useAuth()
+  const { data: member } = useQuery({
+    queryKey: ["member" ],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/req-assets?email=${user?.email}`);
+      
+      const res = await axiosSecure.get("/full-teams");
+      console.log(res);
       return res.data;
     },
   });
-  console.log(user);
-  console.log(allReq.length);
+  const Email = member?.find(mem=>mem.userEmail === user?.email)
+ 
+  const { data: allReq, isLoading, refetch } = useQuery({
+    queryKey: ["allReq", Email?.userEmail ],
+    queryFn: async () => {
+      // const res = await axiosSecure.get("/req-assets");
+      const res = await axiosSecure.get("/req-assets/all");
+      console.log(res);
+      return res.data;
+    },
+  });
+  console.log(allReq);
+ 
+ 
   if (isLoading) {
     return <p>loading</p>;
   }
@@ -37,14 +52,35 @@ const AllRequests = () => {
   };
 
   return (
-    <div>
+    <div className="mx-20">
+      <div className="my-3 flex gap-5 items-center justify-between">
+        <input
+          type="text"
+          placeholder="Type here"
+          className="input input-bordered w-full max-w-xs"
+        />
+        <select className="select select-bordered w-full max-w-xs">
+          <option disabled selected>
+            Asset Status
+          </option>
+          <option>pending</option>
+          <option>Approved</option>
+        </select>
+        <select className="select select-bordered w-full max-w-xs">
+          <option disabled selected>
+            Asset Type
+          </option>
+          <option>returnable</option>
+          <option>non-returnable</option>
+        </select>
+      </div>
       <h2>Request List</h2>
       
 
-      <div className="m-20">
+      <div >
         <div className="bg-slate-200 overflow-x-auto rounded-t-md">
           <table className="table">
-            <thead className="bg-green-600">
+            <thead className="bg-[#d45934]">
               <tr>
                 {/* <th>SN</th> */}
 
@@ -62,10 +98,10 @@ const AllRequests = () => {
               {allReq?.map((request) => (
                 <tr key={request._id}>
                   {/* <td>{index+1}</td> */}
-                  <td>{request?.asset.productName}</td>
+                  <td>{request?.productName}</td>
 
-                  <td>{request?.asset.productType}</td>
-                  <td>{request?.asset.userEmail}</td>
+                  <td>{request?.productType}</td>
+                  <td>{request?.userEmail}</td>
                   <td>{request?.userName}</td>
                   <td>{request?.date}</td>
                   <td>{request?.note}</td>
@@ -74,7 +110,7 @@ const AllRequests = () => {
                   <td className="flex flex-col justify-center items-center gap-5">
                     <button
                       disabled={request.isPending}
-                      className="bg-green-600 text-white py-2 font-semibold px-6 rounded-full hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
+                      className="bg-[#d45934] text-white py-2 font-semibold px-6 rounded-full hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
                       onClick={() => handleApprove(request._id)}>
                       Approve
                     </button>

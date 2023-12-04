@@ -27,7 +27,7 @@ const Dashboard = () => {
 
   
   const [isAdmin] = useHr();
-  console.log(isAdmin);
+  
 
   return (
     <div className="flex">

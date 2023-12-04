@@ -4,9 +4,11 @@ import  Swal  from 'sweetalert2';
 import useAuth from './../Hooks/useAuth';
 import SocialLogin from './Shared/SocialLogin';
 import { useNavigate } from 'react-router-dom';
+import useTeam from './../Hooks/useTeam';
 const Login = () => {
   const navigate = useNavigate()
   const {signInUser}= useAuth()
+ 
   
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,6 +25,7 @@ const Login = () => {
         text: "Login successfully",
         icon: "success"
       })
+
       navigate("/dashboard/home")
 
     } catch (error) {

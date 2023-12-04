@@ -5,13 +5,13 @@ const Subscriptions = () => {
     <div>
       <div className="my-10 mx-5">
         <h1 className="text-4xl font-bold text-center text-cyan-700 my-5">
-          Our Package{" "}
+          Package Section{" "}
         </h1>
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
           <div className="w-full overflow-auto shadow-2xl">
             <a>
-              <h1 className="text-2xl bg-cyan-900 p-2  font-bold tracking-tight text-white text-center rounded-t-lg dark:text-white">
-              5 Employees
+              <h1 className="text-2xl bg-[#d45934] p-2  font-bold tracking-tight text-white text-center rounded-t-lg dark:text-white">
+                5 Employees
               </h1>
             </a>
             <div className="mb-1 mt-2 p-3 ">
@@ -22,8 +22,8 @@ const Subscriptions = () => {
               </h1>
 
               <div className="space-y-3 text-center mt-5 ">
-                <span className="text-2xl font-bold bg-cyan-900 text-white px-2 p-1  rounded">
-                5 Employees for $5
+                <span className="text-2xl font-bold bg-[#d45934] text-white px-2 p-1  rounded">
+                  5 Employees for $5
                 </span>
                 <p className="font-sm underline font-semibold">
                   Members-Only Forum
@@ -40,19 +40,17 @@ const Subscriptions = () => {
                 </p>
               </div>
             </div>
-            <div className="bg-cyan-900 flex p-3 items-center justify-between">
-              <span className="text-3xl font-bold text-white">
-                $ 5 
-              </span>
-              <a className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">
+            <div className="bg-[#ff3c00] flex p-3 items-center justify-between">
+              <span className="text-3xl font-bold text-white">$ 5</span>
+              <a className="rounded-lg bg-[#d45934] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-[#d45934] dark:focus:ring-cyan-800">
                 Subscribe
               </a>
             </div>
           </div>
           <div className="w-full overflow-auto shadow-2xl">
             <a>
-              <h5 className="text-2xl bg-cyan-700 p-2  font-bold tracking-tight text-white text-center rounded-t-lg dark:text-white ">
-              10 Employees
+              <h5 className="text-2xl bg-[#d45934] p-2  font-bold tracking-tight text-white text-center rounded-t-lg dark:text-white ">
+                10 Employees
               </h5>
             </a>
             <div className="mb-1 mt-2 p-3 ">
@@ -62,8 +60,8 @@ const Subscriptions = () => {
               </h3>
 
               <div className="space-y-3 text-center mt-5 ">
-                <span className="text-2xl font-bold bg-cyan-700 text-white px-2 rounded p-1">
-                10 Employees $8
+                <span className="text-2xl font-bold bg-[#d45934] text-white px-2 rounded p-1">
+                  10 Employees $8
                 </span>
                 <p className="font-sm underline font-semibold">
                   Members-Only Forum
@@ -80,31 +78,28 @@ const Subscriptions = () => {
                 </p>
               </div>
             </div>
-            <div className="bg-cyan-700 flex p-3 items-center justify-between">
-              <span className="text-3xl font-bold text-white">
-                $ 8 
-              </span>
-              <a className="rounded-lg bg-cyan-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-700 dark:hover:bg-cyan-700 dark:focus:ring-cyan-700">
+            <div className="bg-[#ff3c00] flex p-3 items-center justify-between">
+              <span className="text-3xl font-bold text-white">$ 8</span>
+              <a className="rounded-lg bg-[#d45934] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-[#d45934] dark:hover:bg-[#d45934] dark:focus:ring-cyan-700">
                 Subscribe
               </a>
             </div>
           </div>
           <div className="w-full overflow-auto shadow-2xl">
             <a>
-              <h5 className="text-2xl bg-cyan-500 p-2  font-bold tracking-tight text-white text-center rounded-t-lg dark:text-white">
-              20 Employees
+              <h5 className="text-2xl bg-[#d45934] p-2  font-bold tracking-tight text-white text-center rounded-t-lg dark:text-white">
+                20 Employees
               </h5>
             </a>
             <div className="mb-1 mt-2 p-3 ">
               <h3 className="font-sm text-gray-500 text-center">
-                20 employees $15 . Payment options. Choose your
-                preferred EliteClub membership subscription! You can pay monthly
-                
+                20 employees $15 . Payment options. Choose your preferred
+                EliteClub membership subscription! You can pay monthly
               </h3>
 
               <div className="space-y-3 text-center mt-5 ">
-                <span className="text-2xl font-bold bg-cyan-500 text-white px-2 p-1 rounded">
-                20 Employees $15
+                <span className="text-2xl font-bold bg-[#d45934] text-white px-2 p-1 rounded">
+                  20 Employees $15
                 </span>
                 <p className="font-sm underline font-semibold">
                   Members-Only Forum
@@ -121,12 +116,9 @@ const Subscriptions = () => {
                 </p>
               </div>
             </div>
-            <div className="bg-cyan-500 flex p-3 items-center justify-between">
-              <span className="text-3xl font-bold text-white">
-                {" "}
-                $ 15 {" "}
-              </span>
-              <a className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800">
+            <div className="bg-[#ff3c00] flex p-3 items-center justify-between">
+              <span className="text-3xl font-bold text-white"> $ 15 </span>
+              <a className="rounded-lg bg-[#d45934] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-[#d45934] dark:focus:ring-cyan-800">
                 Subscribe
               </a>
             </div>

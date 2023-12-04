@@ -1,13 +1,28 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
-
 import Swal from "sweetalert2";
 import useAxiosPublic from "./../../../Hooks/useAxiosPublic";
 import useAuth from "./../../../Hooks/useAuth";
+import useTeam from './../../../Hooks/useTeam';
+// import { useQuery } from '@tanstack/react-query';
+// import useAxiosSecure from './../../../Hooks/useAsiosSecure';
 const MakeCustomRequest = () => {
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
+  
+
+  // const { data: allTeam} = useQuery({
+  //   queryKey: ["allTeam" ],
+  //   queryFn: async () => {
+      
+  //     const res = await useAxiosSecure.get("/full-teams");
+  //     console.log("res",res);
+  //     return res.data;
+  //   },
+  // });
+  // console.log("mem",allTeam);
+  const [team] = useTeam()
+ 
 
   const {
     register,
@@ -16,10 +31,17 @@ const MakeCustomRequest = () => {
     formState: { errors },
   } = useForm();
 
+  
+  
+  
+ 
+  const adminEmail=team.userEmail
+  console.log(adminEmail);
   const onSubmit = async (data) => {
     try {
       const assetInfo = {
-        userEmail: user.email,
+        adminEmail,
+        email: user.email,
         assetName: data.AssetName,
         assetPrice: data.AssetPrice,
         AssetType: data.AssetType,
@@ -29,7 +51,8 @@ const MakeCustomRequest = () => {
         isPending: false,
       };
       console.log(assetInfo);
-
+      
+      
       const res = await axiosPublic.post("/custom-assets", assetInfo);
 
       if (res.data.insertedId) {

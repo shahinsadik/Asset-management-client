@@ -100,6 +100,9 @@ const Navbar = () => {
       </li>
       {user ? (
         <>
+      <li className="font-bold text-white text-lg mr-3">
+        <NavLink to="/dashboard">Dashboard</NavLink>
+      </li>
           {user.role === "employee" && renderEmployeeLinks()}
           {user.role === "hr" && renderHrLinks()}
         </>

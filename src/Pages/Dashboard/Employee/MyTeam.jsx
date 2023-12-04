@@ -1,11 +1,36 @@
 import useTeam from "./../../../Hooks/useTeam";
+import useAuth from './../../../Hooks/useAuth';
+import useAxiosSecure from './../../../Hooks/useAsiosSecure';
+import { useQuery } from '@tanstack/react-query';
 
 const MyTeam = () => {
-  const [team] = useTeam();
-  console.log(team, "team list");
+  const [team] =useTeam()
+
+  console.log(team);
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+  const {
+    data: teamMember, 
+  } = useQuery({
+    queryKey: ["teamMember",],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/myTeams");
+      
+      return res?.data;
+    },
+    
+  });
+ const ownTeam = teamMember?.filter(t=> t.userEmail ===   team?.userEmail)
+  
+  console.log(ownTeam);
   return (
-    <div>
-      <div className="m-20">
+    <div className="mx-20">
+      <div className="my-5">
+      <h2 className="text-2xl text-center font-bold mb-4">Upcoming Events</h2>
+      <h2 className="text-2xl my-10 text-red-600 text-center font-bold mb-4">No Upcoming Events found</h2>
+
+      </div>
+      <div >
         <div className="bg-slate-200 overflow-x-auto rounded-t-md">
           <table className="table ">
             <thead className="bg-green-600">
@@ -19,7 +44,7 @@ const MyTeam = () => {
               </tr>
             </thead>
             <tbody>
-              {team?.map((singleUser, index) => (
+              {ownTeam?.map((singleUser, index) => (
                 <tr key={singleUser._id}>
                   <td>
                     <label>

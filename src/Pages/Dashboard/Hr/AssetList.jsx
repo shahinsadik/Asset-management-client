@@ -15,14 +15,35 @@ const AssetList = () => {
   });
 
   return (
-    <div>
-      <div>
-        <h2>Asset List for {user?.email}</h2>
+    <div className="mx-20">
+      <div className="my-3 flex gap-5 items-center justify-between">
+        <input
+          type="text"
+          placeholder="Type here"
+          className="input input-bordered w-full max-w-xs"
+        />
+        <select className="select select-bordered w-full max-w-xs">
+          <option disabled selected>
+            Asset Status
+          </option>
+          <option>pending</option>
+          <option>Approved</option>
+        </select>
+        <select className="select select-bordered w-full max-w-xs">
+          <option disabled selected>
+            Asset Type
+          </option>
+          <option>returnable</option>
+          <option>non-returnable</option>
+        </select>
       </div>
-      <div className="m-20">
+      <div>
+       
+      </div>
+      <div >
         <div className="bg-slate-200 overflow-x-auto rounded-t-md">
           <table className="table">
-            <thead className="bg-green-600">
+            <thead className="bg-[#d45934]">
               <tr>
                 <th></th>
                 <th>SN</th>
@@ -65,7 +86,7 @@ const AssetList = () => {
                   <td>{asset?.productType}</td>
                   <td>{asset?.productQuantity}</td>
                   <div className="flex flex-col gap-2 m-3">
-                    <button className="bg-green-600 text-white py-2 font-semibold px-6 rounded-full hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">
+                    <button className="bg-[#d45934] text-white py-2 font-semibold px-6 rounded-full hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">
                       Update
                     </button>
                     <button className="bg-red-600 text-white py-2 font-semibold px-6 rounded-full hover:bg-red-800 focus:outline-none focus:shadow-outline-blue">

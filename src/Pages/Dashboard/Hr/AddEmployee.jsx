@@ -1,5 +1,6 @@
 
 import UserTable from './UserTable';
+import Subscriptions from './../../Home/Subscriptions';
 
 
 const AddEmployee = () => {
@@ -8,11 +9,11 @@ const AddEmployee = () => {
     
     return (
         <div>
-            Add an Employee
+            
             <div>
-        
+        <Subscriptions></Subscriptions>
             </div>
-            <div>
+            <div >
                <UserTable></UserTable> 
             </div>
         </div>
